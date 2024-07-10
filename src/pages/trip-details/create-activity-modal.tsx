@@ -1,13 +1,43 @@
 import { Calendar, Plus, Tag, X } from "lucide-react";
 import { Button } from "../../components/button";
+import { FormEvent } from "react";
+import { api } from "../../lib/axios";
+import { useParams } from "react-router-dom";
+import { Trip } from ".";
+import { format } from "date-fns";
 
 type CreateActivyModalProps = {
   closeCreateActivityModal: () => void;
+  trip: Trip | undefined;
 };
 
 export function CreateActivyModal({
-  closeCreateActivityModal
+  closeCreateActivityModal,
+  trip
 }: CreateActivyModalProps) {
+  
+  const { tripId } = useParams();
+
+  async function createActivity(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    const data = new FormData(event.currentTarget);
+
+    const title = data.get('title')?.toString();
+    const occurs_at = data.get('occurs_at')?.toString();
+
+    await api.post(`/trips/${tripId}/activities`, {
+      title,
+      occurs_at
+    });
+
+    window.document.location.reload();
+  };
+
+  const formatDateTimeLocal = (dateString: string) => {
+    return format(new Date(dateString), "yyyy-MM-dd'T'HH:mm");
+  };
+
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center">
       <div className="w-[640px] rounded-xl py-5 px-6 shadow-shape bg-zinc-900 space-y-5">
@@ -24,8 +54,8 @@ export function CreateActivyModal({
           </p>
         </div>
 
-        <form className="space-y-3">
-          
+        <form onSubmit={createActivity} className="space-y-3">
+
           <div className="h-14 px-4 bg-zinc-950 border-zinc-800 rounded-lg flex items-center gap-2">
             <Tag className="text-zinc-400 size-5" />
             <input
@@ -42,7 +72,9 @@ export function CreateActivyModal({
                 type="datetime-local"
                 name="occurs_at"
                 placeholder="Data e horário da atividade"
-                className="bg-transparent text-lg placeholder-zinc-400 w-40 outline-none flex-1"
+                className="bg-transparent text-lg placeholder-zinc-400 w-40 outline-none flex-1"  
+                min={trip ? formatDateTimeLocal(trip.starts_at) : ""}
+                max={trip ? formatDateTimeLocal(trip.ends_at) : ""}             
               />
             </div>
           </div>
@@ -50,7 +82,7 @@ export function CreateActivyModal({
           <Button size="full">
             Salvar atividade
             <Plus className="size-5" />
-            </Button>
+          </Button>
         </form>
 
       </div>
