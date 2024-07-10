@@ -6,6 +6,7 @@ import { DestinationAndDateStep } from "./steps/destination-and-date-step";
 import { InviteGuestsSteps } from "./steps/invite-guests-steps";
 import { DateRange } from "react-day-picker";
 import { api } from "../../lib/axios";
+import { toast } from "react-toastify";
 
 function CreateTripPage() {
   const navigete = useNavigate();
@@ -52,19 +53,37 @@ function CreateTripPage() {
     if (emailsToInvite.length === 0) return;
     if (!ownerName || !ownerEmail) return;
 
-    const response = await api.post('/trips', {
+    const toastId = toast.loading("Um momento...")
+
+    await api.post('/trips', {
       destination,
       starts_at: eventStartAndEndDates.from,
       ends_at: eventStartAndEndDates.to,
       emails_to_invite: emailsToInvite,
       owner_name: ownerName,
       owner_email: ownerEmail
-    });
+    })
+      .then((response) => {
+        toast.update(toastId, {
+          render: "Viagem criada!",
+          type: "success",
+          isLoading: false,
+          autoClose: 1500
+        });
 
-    const { tripId } = response.data;
-
-    navigete(`/trips/${tripId}`);
-  }
+        const { tripId } = response.data;
+        navigete(`/trips/${tripId}`);
+      })
+      .catch((error) => {
+        console.error(error);
+        toast.update(toastId, {
+          render: "Erro ao criar viagem. Tente novamente.",
+          type: "error",
+          isLoading: false,
+          autoClose: 2500
+        });
+      });
+  };
 
   function addNewEmailToInvite(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

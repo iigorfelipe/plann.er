@@ -1,10 +1,10 @@
-import { CheckCircle2, CircleDashed, UserCog } from "lucide-react";
-import { Button } from "../../components/button";
+import { CheckCircle2, CircleDashed, Pencil } from "lucide-react";
 import { useEffect, useState } from "react";
 import { api } from "../../lib/axios";
 import { useParams } from "react-router-dom";
+// import { UpdateGuestModal } from "./update-guest-modal";
 
-type Participants = {
+export type Participants = {
   id: string;
   name: string | null;
   email: string;
@@ -15,12 +15,23 @@ export function Guests() {
   const { tripId } = useParams();
 
   const [participants, setParticipants] = useState<Participants[]>([]);
-  
+  // const [selectedParticipant, setSelectedParticipant] = useState<Participants | undefined>(undefined);
+  // const [isUpdateGuestModalOpen, setIsUpdateGuestModalOpen] = useState(false);
+
   useEffect(() => {
     api
       .get(`/trips/${tripId}/participants`)
       .then((response) => setParticipants(response.data.participants))
   }, [tripId]);
+
+  // function openUpdateGuestModal() {
+  //   setIsUpdateGuestModalOpen(true);
+  // };
+
+  // function closeUpdateGuestModal() {
+  //   setIsUpdateGuestModalOpen(false);
+  //   setSelectedParticipant(undefined);
+  // };
 
   return (
     <div className="space-y-6">
@@ -40,6 +51,13 @@ export function Guests() {
                   {participant.email}
                 </span>
               </div>
+              {/* <Pencil
+                onClick={() => {
+                  setSelectedParticipant(participant);
+                  openUpdateGuestModal();
+                }}
+                className="size-5 shrink-0 ml-auto cursor-pointer"
+              /> */}
               {
                 participant.is_confirmed ? (
                   <CheckCircle2 className="size-5 shrink-0 text-green-400" />
@@ -52,10 +70,14 @@ export function Guests() {
         }
       </div>
 
-      <Button variant="secondary">
-        Gerenciar convidados
-        <UserCog className="size-5" />
-      </Button>
+      {/* {
+        selectedParticipant?.id && isUpdateGuestModalOpen && (
+          <UpdateGuestModal
+            participant={selectedParticipant}
+            closeUpdateGuestModal={closeUpdateGuestModal}
+          />
+        )
+      } */}
     </div>
   );
 };

@@ -1,21 +1,17 @@
-import { Calendar, Tag, X } from "lucide-react";
+import { Link2, Tag, X } from "lucide-react";
 import { Button } from "../../components/button";
 import { FormEvent } from "react";
 import { api } from "../../lib/axios";
 import { useParams } from "react-router-dom";
-import { Trip } from ".";
-import { format } from "date-fns";
 import { toast } from "react-toastify";
 
-type CreateActivyModalProps = {
-  closeCreateActivityModal: () => void;
-  trip: Trip | undefined;
+type CreateLinkModalProps = {
+  closeCreateLinkModal: () => void;
 };
 
-export function CreateActivyModal({
-  closeCreateActivityModal,
-  trip
-}: CreateActivyModalProps) {
+export function CreateLinkModal({
+  closeCreateLinkModal,
+}: CreateLinkModalProps) {
   
   const { tripId } = useParams();
 
@@ -25,19 +21,19 @@ export function CreateActivyModal({
     const data = new FormData(event.currentTarget);
 
     const title = data.get('title')?.toString();
-    const occurs_at = data.get('occurs_at')?.toString();
-    
-    if (!title || !occurs_at) return;
+    const url = data.get('url')?.toString();
+
+    if (!title || !url) return;
 
     const toastId = toast.loading("Loading...");
 
-    await api.post(`/trips/${tripId}/activities`, {
+    await api.post(`/trips/${tripId}/links`, {
       title,
-      occurs_at
+      url
     })
       .then(() => {
         toast.update(toastId, {
-          render: "Atividade Cadastrada!",
+          render: "Novo link criado!",
           type: "success",
           isLoading: false,
           autoClose: 1500
@@ -47,16 +43,12 @@ export function CreateActivyModal({
       .catch((error) => {
         console.error(error);
         toast.update(toastId, {
-          render: "Erro ao cadastrar atividade. Tente novamente.",
+          render: "Erro ao criar link. Tente novamente.",
           type: "error",
           isLoading: false,
           autoClose: 2500
         });
-      });
-  };
-
-  const formatDateTimeLocal = (dateString: string) => {
-    return format(new Date(dateString), "yyyy-MM-dd'T'HH:mm");
+      });  
   };
 
   return (
@@ -65,13 +57,13 @@ export function CreateActivyModal({
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <h2>Confirmar criação da viagem</h2>
-            <button onClick={closeCreateActivityModal}>
+            <h2>Cadastrar link</h2>
+            <button onClick={closeCreateLinkModal}>
               <X />
             </button>
           </div>
           <p className="text-sm text-zinc-400">
-            Todos convidados podem visualizar as atividades.
+            Todos convidados podem visualizar os links importantes.
           </p>
         </div>
 
@@ -81,31 +73,26 @@ export function CreateActivyModal({
             <Tag className="text-zinc-400 size-5" />
             <input
               name="title"
-              placeholder="Qual a atividade?"
+              placeholder="Título do link"
               className="bg-transparent text-lg placeholder-zinc-400 w-40 outline-none flex-1"
             />
           </div>
 
-          <div className="flex items-center gap-2">
-            <div className="h-14 flex-1 px-4 bg-zinc-950 border-zinc-800 rounded-lg flex items-center gap-2">
-              <Calendar className="text-zinc-400 size-5" />
-              <input
-                type="datetime-local"
-                name="occurs_at"
-                placeholder="Data e horário da atividade"
-                className="bg-transparent text-lg placeholder-zinc-400 w-40 outline-none flex-1"  
-                min={trip ? formatDateTimeLocal(trip.starts_at) : ""}
-                max={trip ? formatDateTimeLocal(trip.ends_at) : ""}             
-              />
-            </div>
+          <div className="h-14 px-4 bg-zinc-950 border-zinc-800 rounded-lg flex items-center gap-2">
+            <Link2 className="text-zinc-400 size-5" />
+            <input
+              name="url"
+              placeholder="URL"
+              className="bg-transparent text-lg placeholder-zinc-400 w-40 outline-none flex-1"
+            />
           </div>
           
           <Button size="full">
-            Salvar atividade
+            Salvar link
           </Button>
         </form>
 
       </div>
     </div>
-  )
+  );
 };
