@@ -4,6 +4,8 @@ import {
 } from "react-router-dom";
 import TripDetailsPage from "./pages/trip-details";
 import CreateTripPage from "./pages/create-trip";
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const router = createBrowserRouter([
   {
@@ -18,7 +20,13 @@ const router = createBrowserRouter([
 
 function App() {
   return (
-    <RouterProvider router={router} />
+    <>
+      <RouterProvider router={router} />
+      <ToastContainer
+        position="bottom-right"
+        theme="dark"
+      />
+    </>
   )
 }
 
