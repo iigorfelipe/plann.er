@@ -42,6 +42,8 @@ npm install
 npm run dev
 ```
 
+#### Obs: Backend está em desenvolvimento.
+
 ## Autor
 
 - [Igor Felipe - Linkedin](https://www.linkedin.com/in/iigor-felipe/)
