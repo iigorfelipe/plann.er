@@ -25,7 +25,7 @@ export function CreateLinkModal({
 
     if (!title || !url) return;
 
-    const toastId = toast.loading("Loading...");
+    const toastId = toast.loading("Um momento...");
 
     await api.post(`/trips/${tripId}/links`, {
       title,
@@ -57,7 +57,7 @@ export function CreateLinkModal({
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <h2>Cadastrar link</h2>
+            <h2 className="font-semibold">Cadastrar link</h2>
             <button onClick={closeCreateLinkModal}>
               <X />
             </button>

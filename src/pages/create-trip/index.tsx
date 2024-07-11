@@ -125,6 +125,7 @@ function CreateTripPage() {
               closeGUestsInput={closeGUestsInput}
               isGuestsInputOpen={isGuestsInputOpen}
               openGuestsInput={openGuestsInput}
+              destination={destination}
               setDestination={setDestination}
               eventStartAndEndDates={eventStartAndEndDates}
               setEventStartAndEndDates={setEventStartAndEndDates}
@@ -161,6 +162,8 @@ function CreateTripPage() {
       {
         isConfirmTripModalOpen && (
           <ConfirmTripModal
+            destination={destination}
+            eventStartAndEndDates={eventStartAndEndDates}
             closeConfirmTripModal={closeConfirmTripModal}
             createTrip={createTrip}
             setOwnerName={setOwnerName}

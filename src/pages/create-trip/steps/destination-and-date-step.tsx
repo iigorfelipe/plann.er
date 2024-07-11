@@ -9,6 +9,7 @@ type DestinationAndDateStep = {
   isGuestsInputOpen: boolean;
   closeGUestsInput: () => void;
   openGuestsInput: () => void;
+  destination: string;
   setDestination: (destination: string) => void;
   eventStartAndEndDates: DateRange | undefined;
   setEventStartAndEndDates: (date: DateRange | undefined) => void;
@@ -18,6 +19,7 @@ export function DestinationAndDateStep({
   closeGUestsInput,
   isGuestsInputOpen,
   openGuestsInput,
+  destination,
   setDestination,
   eventStartAndEndDates,
   setEventStartAndEndDates
@@ -99,7 +101,11 @@ export function DestinationAndDateStep({
             <Settings2 className="size-5" />
           </Button>
         ) : (
-          <Button onClick={openGuestsInput}>
+          <Button
+            variant={(destination.trim().length === 0  || displayedDate === null) ? 'disabled' : 'primary'}
+            disabled={(destination.trim().length === 0  || displayedDate === null)}
+            onClick={openGuestsInput}
+          >
             Continuar
             <ArrowRight className="size-5" />
           </Button>

@@ -38,7 +38,7 @@ const TripDetailsPage = () => {
   };
 
   return (
-    <div className="max-w-6xl px-6 py-10 space-y-8">
+    <div className="max-w-6xl px-6 py-10 space-y-8 mx-auto">
 
       <DestinationAndDateHeader trip={trip} />
 

@@ -29,7 +29,7 @@ export function CreateActivyModal({
     
     if (!title || !occurs_at) return;
 
-    const toastId = toast.loading("Loading...");
+    const toastId = toast.loading("Um momento...");
 
     await api.post(`/trips/${tripId}/activities`, {
       title,
@@ -65,7 +65,7 @@ export function CreateActivyModal({
 
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <h2>Confirmar criação da viagem</h2>
+            <h2 className="font-semibold">Confirmar criação da viagem</h2>
             <button onClick={closeCreateActivityModal}>
               <X />
             </button>
