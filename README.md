@@ -17,32 +17,33 @@
 - TypeScript
 - React - `Vite (react-ts)`
 - Tailwindcss
+- Axios
 
 ## Executando o Projeto Localmente
 
-__obs: Cerifique-se de estar com o node na versão `16` ou superior
+1. Clone o repositório para sua máquina:
+    ```bash
+    git clone git@github.com:iigorfelipe/planner.git
+    ```
 
-- Clone o repositório para sua máquina:
-```bash
-git clone git@github.com:iigorfelipe/planner.git
-```
+2. Entre na pasta do projeto:
+    ```bash
+    cd frontend
+    ```
 
-- Entre na pasta do projeto:
-```bash
-cd frontend
-```
+3. Instale as dependências:
+    ```bash
+    npm install
+    ```
 
-- Instale as dependências:
-```bash
-npm install
-```
+4. Execute o projeto:
+    ```bash
+    npm run dev
+    ```
 
-- Execute o projeto:
-```bash
-npm run dev
-```
+5. Entre no repositório do backend e siga os passos no tópico `Executando o Projeto Localmente` para configurar e executar o backend:
 
-#### Obs: Backend está em desenvolvimento.
+- # [Repositório do Backend](https://github.com/iigorfelipe/planner-backend)
 
 ## Autor
 
